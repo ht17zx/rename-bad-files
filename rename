@@ -1,0 +1,68 @@
+#!/bin/bash
+
+rename() {
+FILENAME=""
+ORIGINAL=""
+a=($1)
+#echo $1 ${a[0]} ${a[1]} ${a[2]}
+j=0
+		while [[ ${a[j]} != "" ]]
+		do
+#		echo 'in while of j'
+		j=$((j+1))
+#		echo $j
+		done
+k=0
+#j=$(( j+1 ))
+		while [[ $k < $j ]]
+		do
+#		echo 'in while of k'
+			if [[ $FILENAME == "" ]]
+			then
+			
+			FILENAME=${a[k]}
+#			echo $FILENAME
+			k=$((k+1))
+#			echo $k
+			
+			fi
+		FILENAME=$FILENAME-${a[k]}
+		k=$((k+1))
+#		echo $FILENAME
+		done
+#echo $FILENAME
+
+echo "$1 >> $FILENAME"
+mv "$1" "$FILENAME"
+
+}
+
+m=$1
+while [[ $m > 0  ]]
+
+do
+i="$(find . -type f -regex '.*[^-_./0-9a-zA-Z].*' | head -$m | tail -1)"
+
+
+#echo "value of i $i and m $m"
+
+
+
+
+
+if [[ $i != "" ]]
+then
+#echo $i
+ORIGINAL=$(basename "$i")
+rename "$ORIGINAL"
+
+
+	if [[ m < 0 ]]
+	then
+	exit
+	fi
+fi
+
+m=$(( $m-1 ))
+#echo "new value of m $m"
+done
